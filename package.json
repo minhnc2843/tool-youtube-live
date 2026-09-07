@@ -1,0 +1,59 @@
+{
+  "name": "phat-truc-tiep-da-luong",
+  "version": "0.1.0",
+  "description": "YouTube Multi-Stream Manager desktop app",
+  "main": "dist-electron/main.js",
+  "author": "Local Desktop App",
+  "license": "MIT",
+  "scripts": {
+    "dev": "concurrently -k \"vite --host 127.0.0.1\" \"wait-on http://127.0.0.1:5173 && electron .\"",
+    "build": "npx tsc -p tsconfig.json && vite build && npx tsc -p tsconfig.electron.json",
+    "package": "npm run build && npx electron-packager . \"Phat Truc Tiep Da Luong\" --platform=win32 --arch=x64 --out=release --overwrite --extra-resource=\"resources/ffmpeg\"",
+    "lint": "eslint .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.0",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "eslint": "^9.16.0",
+    "@eslint/js": "^9.16.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.0",
+    "vite": "^6.0.5",
+    "vitest": "^2.1.8",
+    "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "com.phattructiep.daluong",
+    "productName": "Phat Truc Tiep Da Luong",
+    "directories": { "output": "release" },
+    "files": ["dist/**/*", "dist-electron/**/*", "package.json"],
+    "extraResources": [
+      { "from": "resources/ffmpeg", "to": "ffmpeg" },
+      { "from": "resources/tray.ico", "to": "tray.ico" }
+    ],
+    "win": {
+      "target": ["dir", "portable"],
+      "sign": null,
+      "forceCodeSigning": false,
+      "artifactName": "${productName}-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    }
+  }
+}
